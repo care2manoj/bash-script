@@ -1,0 +1,21 @@
+--- # This is a structure yaml example to insatll httpd on appgroup
+- hosts: 10.142.0.3
+  remote_user: ansible-server
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  vars:
+    username: myuser
+  tasks:
+  - name: Install HTTPD server on appserver Nodes
+    yum:
+      name: httpd
+      state: latest
+    notify:
+    - startservice
+  handlers:
+  - name: startservice
+    service:
+      name: httpd
+      state: restarted
